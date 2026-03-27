@@ -1,5 +1,5 @@
 # bustaposts
-The *best* social media platform, not endorsed by Busta Rhymes.
+The best[^1] social media platform, not endorsed by Busta Rhymes.
 
 ## Setup
 ### SQL
@@ -23,3 +23,5 @@ CREATE TABLE posts (
 Create a settings.php file in the root directory and specify the following variables:
 - $sqlUser
 - $sqlPass
+
+[^1]: just don't look too close at the code
