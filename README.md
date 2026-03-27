@@ -1,4 +1,5 @@
 ![Logo made by whatislove](img/bustaPostss.jpg)
+
 The best[^1] social media platform, not endorsed by Busta Rhymes.
 
 ## Setup
