@@ -11,7 +11,7 @@ include("settings.php");
     <title>Document</title>
 </head>
 <body>
-    <div class="container-fluid pt-3">
+    <div class="container-fluid">
         <div class="container">
             <div class="row">
                 <div class="col-12 col-md-3 border-end border-primary">
