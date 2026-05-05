@@ -1,4 +1,6 @@
-<?php session_start(); ?>
+<?php session_start();
+include("settings.php");
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,29 +11,42 @@
     <title>Document</title>
 </head>
 <body>
-    <?php
-        include("settings.php");
-        include("parts/header.php");
-    ?>
-    <?php
-        try {
-            $sql = new PDO("mysql:host=localhost;dbname=bp", $sqlUser, $sqlPass);
-            $query = "SELECT * FROM posts WHERE postId = :id;";
-            $stmt = $sql->prepare($query);
-            $stmt->bindParam(":id", $_GET["id"]);
-            try {
-                $stmt->execute();
-            } catch(PDOException $e) {
-                exit("An error occurred while trying to view this post. " . $e);
-            }
-            $result = $stmt->fetch();
-            echo('<div class="postBody">
-                <a href="viewuser.php?id=' . $result["posterId"] . '">@' . $result["posterHandle"] . '</a> - <a href="viewpost.php?id=' . $result["postId"] . '">Direct link</a><br>
-                ' . $result["postData"] . '
-            </div>');
-        } catch(PDOException $e) {
-            echo("Couldn't connect to database. " . $e);
-        }
-    ?>
+    <div class="container-fluid">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-md-3">
+                    <?php include("parts/header.php"); ?>
+                </div>
+                <div class="col-12 col-md-6">
+                    <?php
+                        try {
+                            $sql = new PDO("mysql:host=localhost;dbname=bp", $sqlUser, $sqlPass);
+                            $query = "SELECT * FROM posts WHERE postId = :id;";
+                            $stmt = $sql->prepare($query);
+                            $stmt->bindParam(":id", $_GET["id"]);
+                            try {
+                                $stmt->execute();
+                            } catch(PDOException $e) {
+                                exit("An error occurred while trying to view this post. " . $e);
+                            }
+                            $result = $stmt->fetch();
+                            echo('
+                                <div class="card w-100 my-2">
+                                    <div class="card-body">
+                                    <a href="viewuser.php?id=' . $result["posterId"] . '">@' . $result["posterHandle"] . '</a> - <a href="viewpost.php?id=' . $result["postId"] . '">Direct link</a><br>
+                                    ' . $result["postData"] . '
+                                    </div>
+                            </div>');
+                        } catch(PDOException $e) {
+                            echo("Couldn't connect to database. " . $e);
+                        }
+                    ?>
+                </div>
+                <div class="col-12 col-md-3">
+                    News
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
