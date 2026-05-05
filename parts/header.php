@@ -7,7 +7,7 @@ if(isset($_SESSION['authenticated'])) {
                 @' . $_SESSION['handle'] . '
             </a>
             <a class="btn text-start w-100" href="logout.php" role="button">
-                destroy session
+                Log out
             </a>
         </div>
         ');
