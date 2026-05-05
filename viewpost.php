@@ -11,13 +11,13 @@ include("settings.php");
     <title>Document</title>
 </head>
 <body>
-    <div class="container-fluid">
+    <div class="container-fluid pt-3">
         <div class="container">
             <div class="row">
                 <div class="col-12 col-md-3">
                     <?php include("parts/header.php"); ?>
                 </div>
-                <div class="col-12 col-md-6">
+                <div class="col-12 col-md-6 border-primary border-start border-end">
                     <?php
                         try {
                             $sql = new PDO("mysql:host=localhost;dbname=bp", $sqlUser, $sqlPass);
@@ -43,7 +43,21 @@ include("settings.php");
                     ?>
                 </div>
                 <div class="col-12 col-md-3">
-                    News
+                    <p class="text-center">News</p>
+                    <?php
+                        $query = $sql->query("SELECT * FROM news");
+                        if($query->rowCount() > 0) {
+                            while($row = $query->fetch()) {
+                                echo('
+                                    <div class="card w-100 my-2">
+                                        <div class="card-body">
+                                        <p>' . $row["newsPoster"] . ' at ' . $row["newsDate"] . '</p>
+                                        <p>' . $row["newsData"] . '</p>
+                                        </div>
+                                </div>');
+                            }
+                        }
+                    ?>
                 </div>
             </div>
         </div>
