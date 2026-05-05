@@ -18,6 +18,11 @@ CREATE TABLE posts (
     posterHandle varchar(16),
     posterId int
 );
+CREATE TABLE news (
+    newsPoster varchar(16),
+    newsData mediumtext,
+    newsDate datetime
+);
 ```
 
 ### PHP
