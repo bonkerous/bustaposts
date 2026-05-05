@@ -3,6 +3,12 @@
 The best[^1] social media platform, not endorsed by Busta Rhymes.
 
 ## Setup
+
+### Requirements
+* Some sort of webserver that supports PHP
+* An internet connection
+* Hopes and prayers
+
 ### SQL
 ```
 CREATE DATABASE bp;
