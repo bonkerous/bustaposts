@@ -15,8 +15,8 @@ if(isset($_SESSION['authenticated'])) {
             echo('
             <div class="header sticky-top pt-3">
                 <a href="index.php"><img class="img-fluid" src="img/bustaPostss.jpg"></a><br>
-                <a class="btn text-start w-100" href="register.php" role="button">register</a>
-                <a class="btn text-start w-100" href="login.php" role="button">login</a>
+                <a class="btn text-start w-100" href="register.php" role="button">Register</a>
+                <a class="btn text-start w-100" href="login.php" role="button">Log in</a>
             </div>
             ');
     }
