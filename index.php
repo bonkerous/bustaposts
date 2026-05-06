@@ -8,6 +8,7 @@ include("settings.php");
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <title>Document</title>
 </head>
@@ -95,13 +96,26 @@ include("settings.php");
                             $query = $sql->query("SELECT * FROM posts ORDER BY postId DESC");
                             if($query->rowCount() > 0) {
                                 while($row = $query->fetch()) {
-                                    echo('
+                                    if($row["replyingTo"]) {
+                                        echo('
                                         <div class="card w-100 my-2">
                                             <div class="card-body">
-                                            <a href="viewuser.php?id=' . $row["posterId"] . '">@' . $row["posterHandle"] . '</a> - <a href="viewpost.php?id=' . $row["postId"] . '">Direct link</a><br>
+                                            <a href="viewuser.php?id=' . $row["posterId"] . '">@' . $row["posterHandle"] . '</a> at ' . $row["postTime"] . '<a class="float-end" href="viewpost.php?id=' . $row["postId"] . '">#' . $row["postId"] . '</a><br>
+                                            <p class="form-text my-0"><bi class="bi bi-reply-fill"> Replying to <a href="viewpost.php?id=' . $row["replyingTo"] . '">#' . $row["replyingTo"] . '</a></p>
                                             ' . $row["postData"] . '
                                             </div>
-                                    </div>');
+                                        </div>
+                                        ');
+                                    } else {
+                                        echo('
+                                        <div class="card w-100 my-2">
+                                            <div class="card-body">
+                                            <a href="viewuser.php?id=' . $row["posterId"] . '">@' . $row["posterHandle"] . '</a> at ' . $row["postTime"] . '<a class="float-end" href="viewpost.php?id=' . $row["postId"] . '">#' . $row["postId"] . '</a><br>
+                                            ' . $row["postData"] . '
+                                            </div>
+                                        </div>
+                                        ');
+                                    }
                                 }
                             }
                         } catch(PDOException $e) {

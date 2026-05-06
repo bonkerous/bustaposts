@@ -21,8 +21,10 @@ CREATE TABLE users (
 CREATE TABLE posts (
     postId int AUTO_INCREMENT PRIMARY KEY,
     postData varchar(160),
+    postDate timestamp DEFAULT CURRENT_TIMESTAMP,
     posterHandle varchar(16),
-    posterId int
+    posterId int,
+    replyingTo int
 );
 CREATE TABLE news (
     newsPoster varchar(16),
