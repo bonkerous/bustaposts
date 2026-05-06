@@ -10,7 +10,7 @@ include("settings.php");
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <title>Document</title>
+    <title id="Title">BustaPosts - Viewing user</title>
 </head>
 <body>
     <div class="container-fluid">
@@ -35,9 +35,10 @@ include("settings.php");
                             if($stmt->rowCount() > 0) {
                                 while($row = $stmt->fetch()) {
                                     if($row['banned'] != 0) {
-                                        echo('<h1 class="display-6 text-danger">@' . $row["handle"] . '</h1>');
+                                        echo('<h1 id="handle" class="display-6 text-danger">@' . $row["handle"] . '</h1>');
+                                        echo('<title>BustaPosts - @' . $row['handle'] . '</title>');
                                     } else {
-                                        echo('<h1 class="display-6">@' . $row["handle"] . '</h1>');
+                                        echo('<h1 id="handle" class="display-6">@' . $row["handle"] . '</h1>');
                                     }
                                     echo('
                                         <p class="form-text">User ID: ' . $row["id"] . '</p>
@@ -109,6 +110,7 @@ include("settings.php");
             <a class="text-decoration-none" href="privacy.php">Privacy</a> | <a class="text-decoration-none" href="terms.php">Terms of Service</a>
         </div>
     </div>
+    <script src="js/viewuserTitle.js"></script>
     <script src="js/postLength.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 </body>
