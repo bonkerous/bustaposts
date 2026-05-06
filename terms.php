@@ -19,13 +19,9 @@ include("settings.php");
                     <?php include("parts/header.php"); ?>
                 </div>
                 <div class="col-12 col-md-6 pt-3">
+                    <h1 class="px-3 display-6">Terms of Service</h1>
                     <?php
-                        session_unset();
-                        session_destroy();
-                        echo('
-                        <h1 class="display-6">Logged out</h1>
-                        <a class="btn btn-primary w-100" href="index.php">Go back to index</a>
-                        ')
+                        include("parts/tos.php");
                     ?>
                 </div>
                 <div class="col-12 col-md-3 border-start border-primary">

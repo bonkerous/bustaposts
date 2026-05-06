@@ -35,5 +35,7 @@ CREATE TABLE news (
 Create a settings.php file in the root directory and specify the following variables:
 - $sqlUser
 - $sqlPass
+- $siteDomain
+- $sysopEmail
 
 [^1]: just don't look too close at the code

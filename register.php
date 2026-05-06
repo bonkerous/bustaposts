@@ -187,5 +187,10 @@ include("settings.php");
             </div>
         </div>
     </div>
+    <div class="container-fluid">
+        <div class="container text-center">
+            <a class="text-decoration-none" href="privacy.php">Privacy</a> | <a class="text-decoration-none" href="terms.php">Terms of Service</a>
+        </div>
+    </div>
 </body>
 </html>
