@@ -17,8 +17,8 @@ include("settings.php");
                 <div class="col-12 col-md-3 border-end border-primary">
                     <?php include("parts/header.php"); ?>
                 </div>
-                <div class="col-12 col-md-6">
-                    <h1 class="p-3 display-6">Login</h1>
+                <div class="col-12 col-md-6 pt-3">
+                    <h1 class="px-3 display-6">Login</h1>
                     <?php
                         if(isset($_POST["handle"])) {
                             try {
@@ -45,6 +45,7 @@ include("settings.php");
                                     $stmt->execute();
                                 } catch(PDOException $e) {
                                     echo("An error occurred while logging into your account. <br>" . $e);
+                                    
                                 }
 
                                 if($stmt->rowCount() > 0) {
@@ -54,8 +55,14 @@ include("settings.php");
                                         $_SESSION['handle'] = $result['handle'];
                                         $_SESSION['id'] = $result['id'];
                                         echo('
-                                        <p>Logged in as @' . $ha . '!</p>
-                                        <a class="btn btn-primary w-100" href="index.php">Go back to index</a>
+                                        <div class="card mt-3 bg-success text-white w-100">
+                                            <div class="card-body pb-0">
+                                                <p>Logged in as @' . $ha . '!</p>
+                                            </div>
+                                        </div>
+                                        <a class="btn mt-3 btn-primary w-100" href="index.php">Go back to index</a>
+                                        ');
+                                        echo('
                                         ');
                                     }
                                 } else {

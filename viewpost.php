@@ -17,7 +17,7 @@ include("settings.php");
                 <div class="col-12 col-md-3 border-end border-primary">
                     <?php include("parts/header.php"); ?>
                 </div>
-                <div class="col-12 col-md-6">
+                <div class="col-12 col-md-6 pt-3">
                     <?php
                         try {
                             $sql = new PDO("mysql:host=localhost;dbname=bp", $sqlUser, $sqlPass);

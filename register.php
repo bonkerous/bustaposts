@@ -17,7 +17,8 @@ include("settings.php");
                 <div class="col-12 col-md-3 border-end border-primary">
                     <?php include("parts/header.php"); ?>
                 </div>
-                <div class="col-12 col-md-6">
+                <div class="col-12 col-md-6 pt-3">
+                    <h1 class="px-3 display-6">Registration</h1>
                     <?php
                         if(isset($_POST["handle"])) {
                             try {
@@ -32,17 +33,59 @@ include("settings.php");
                             $pw2 = $_POST["password2"];
 
                             if (!isset($ha) || trim($ha) == "") {
-                                echo("<br>No handle entered. Try again.");
+                                echo('
+                                <div class="card mt-3 bg-danger text-white w-100">
+                                    <div class="card-body pb-0">
+                                        <p>No handle entered!</p>
+                                        <p>Try again.</p>
+                                    </div>
+                                </div>
+                                ');
                             } elseif (!preg_match("/^[0-9-a-zA-Z-'-_-.]*$/", $ha)) {
-                                echo("<br>Handle contains characters not allowed. Try again. <br> Allowed characters: A-Z, 1-9, . _");
+                                echo('
+                                <div class="card mt-3 bg-danger text-white w-100">
+                                    <div class="card-body pb-0">
+                                        <p>Handle contains characters that aren\'t allowed!</p>
+                                        <p>Allowed characters: A-Z, 1-9, . _</p>
+                                    </div>
+                                </div>
+                                ');
                             } elseif (!isset($em) || trim($em) == "") {
-                                echo("<br>No email address entered. Try again.");
+                                echo('
+                                <div class="card mt-3 bg-danger text-white w-100">
+                                    <div class="card-body pb-0">
+                                        <p>No email address entered!</p>
+                                        <p>Try again.</p>
+                                    </div>
+                                </div>
+                                ');
                             } elseif (!filter_var($em, FILTER_VALIDATE_EMAIL)) {
-                                echo("<br>Invalid email address entered. Try again.");
+                                echo('
+                                <div class="card mt-3 bg-danger text-white w-100">
+                                    <div class="card-body pb-0">
+                                        <p>Email address entered is invalid!</p>
+                                        <p>Try again.</p>
+                                    </div>
+                                </div>
+                                ');
                             } elseif (!isset($pw1) || trim($pw1) == "") {
-                                echo("<br>No password entered. Try again.");
+                                echo('
+                                <div class="card mt-3 bg-danger text-white w-100">
+                                    <div class="card-body pb-0">
+                                        <p>No password entered!</p>
+                                        <p>Try again.</p>
+                                    </div>
+                                </div>
+                                ');
                             } elseif ($pw1 != $pw2) {
-                                echo("<br>Passwords entered aren't the same. Try again.");
+                                echo('
+                                <div class="card mt-3 bg-danger text-white w-100">
+                                    <div class="card-body pb-0">
+                                        <p>Passwords entered aren\'t the same!</p>
+                                        <p>Try again.</p>
+                                    </div>
+                                </div>
+                                ');
                             } else {
                                 $pwHash = password_hash($pw1, PASSWORD_DEFAULT);
 
@@ -53,11 +96,24 @@ include("settings.php");
                                 try {
                                     $stmt->execute();
                                 } catch(PDOException $e) {
-                                    echo("An error occurred while creating your accounts. <br>" . $e);
+                                    echo('
+                                    <div class="card mt-3 bg-danger text-white w-100">
+                                        <div class="card-body pb-0">
+                                            <p>An error occurred while creating your account. ' . $e . '</p>
+                                            <p>Please report this.</p>
+                                        </div>
+                                    </div>
+                                    ');
                                 }
 
                                 if($stmt->rowCount() > 0) {
-                                    exit("<br>An account with that handle exists already!");
+                                    echo('
+                                    <div class="card mt-3 bg-danger text-white w-100">
+                                        <div class="card-body pb-0">
+                                            <p>An account with that handle already exists!</p>
+                                        </div>
+                                    </div>
+                                    ');
                                 } else {
                                     $query = "INSERT INTO users (handle, email, password) VALUES (:ha,:em,:pw);";
                                     $stmt = $sql->prepare($query);
@@ -67,14 +123,27 @@ include("settings.php");
 
                                     try {
                                         $stmt->execute();
+                                        echo('
+                                        <div class="card mt-3 bg-success text-white w-100">
+                                            <div class="card-body pb-0">
+                                                <p>Successfully created your account!</p>
+                                            </div>
+                                        </div>
+                                        ');
                                     } catch(PDOException $e) {
-                                        echo("An error occurred while creating your accounts. <br>" . $e);
+                                        echo('
+                                        <div class="card mt-3 bg-danger text-white w-100">
+                                            <div class="card-body pb-0">
+                                                <p>An error occurred while creating your account. ' . $e . '</p>
+                                                <p>Please report this.</p>
+                                            </div>
+                                        </div>
+                                        ');
                                     }
                                 }
                             }
                         } else {
                             echo('
-                            <h1 class="p-3 display-6">Registration</h1>
                             <form class="pt-3" action="register.php" method="POST">
                                 <label for="handle" class="form-label">Handle</label>
                                 <input id="handle" name="handle" class="form-control mb-2" placeholder="bob" maxlength=16>
