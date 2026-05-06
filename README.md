@@ -16,7 +16,9 @@ CREATE TABLE users (
     id int AUTO_INCREMENT PRIMARY KEY,
     handle varchar(16),
     email varchar(40),
-    password varchar(70)
+    password varchar(70),
+    banned bool,
+    banReason mediumtext
 );
 CREATE TABLE posts (
     postId int AUTO_INCREMENT PRIMARY KEY,

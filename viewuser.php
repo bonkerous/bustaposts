@@ -34,11 +34,23 @@ include("settings.php");
                             }
                             if($stmt->rowCount() > 0) {
                                 while($row = $stmt->fetch()) {
+                                    if($row['banned'] != 0) {
+                                        echo('<h1 class="display-6 text-danger">@' . $row["handle"] . '</h1>');
+                                    } else {
+                                        echo('<h1 class="display-6">@' . $row["handle"] . '</h1>');
+                                    }
                                     echo('
-                                        <h1 class="display-6">@' . $row["handle"] . '</h1>
                                         <p class="form-text">User ID: ' . $row["id"] . '</p>
-                                        <hr>
                                         ');
+                                    if($row['banned'] != 0) {
+                                        echo('
+                                        <div class="card mt-3 bg-danger">
+                                            <div class="card-body text-white">
+                                                <p class="mb-0">This user has been banned for the following reason(s): ' . $row['banReason'] . '</p>
+                                            </div>
+                                        </div>
+                                        ');
+                                    }
                                 }
                             } else {
                                 echo('
@@ -49,6 +61,7 @@ include("settings.php");
                                 </div>
                                 ');
                             }
+                            echo('<hr>');
                             $query = "SELECT * FROM posts WHERE posterId = :id ORDER BY postId DESC;";
                             $stmt = $sql->prepare($query);
                             $stmt->bindParam(":id", $_GET["id"]);

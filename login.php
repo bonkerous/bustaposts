@@ -38,7 +38,7 @@ include("settings.php");
                                 echo("<br>No password entered. Try again.");
                             }
                             else {
-                                $query = "SELECT id, handle, password FROM users HAVING handle = :ha LIMIT 1;";
+                                $query = "SELECT * FROM users HAVING handle = :ha LIMIT 1;";
                                 $stmt = $sql->prepare($query);
                                 $stmt->bindParam(":ha", $ha);
 
@@ -52,19 +52,36 @@ include("settings.php");
                                 if($stmt->rowCount() > 0) {
                                     $result = $stmt->fetch();
                                     if(password_verify($pw, $result['password'])) {
-                                        $_SESSION['authenticated'] = TRUE;
-                                        $_SESSION['handle'] = $result['handle'];
-                                        $_SESSION['id'] = $result['id'];
-                                        echo('
-                                        <div class="card mt-3 bg-success text-white w-100">
-                                            <div class="card-body pb-0">
-                                                <p>Logged in as @' . $ha . '!</p>
+                                        if($result['banned'] == 0) {
+                                            $_SESSION['authenticated'] = TRUE;
+                                            $_SESSION['handle'] = $result['handle'];
+                                            $_SESSION['id'] = $result['id'];
+                                            echo('
+                                            <div class="card mt-3 bg-success text-white w-100">
+                                                <div class="card-body pb-0">
+                                                    <p>Logged in as @' . $ha . '!</p>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <a class="btn mt-3 btn-primary w-100" href="index.php">Go back to index</a>
-                                        ');
-                                        echo('
-                                        ');
+                                            <a class="btn mt-3 btn-primary w-100" href="index.php">Go back to index</a>
+                                            ');
+                                            echo('
+                                            ');
+                                        } else {
+                                            echo('
+                                            <div class="card mt-3 bg-danger">
+                                                <div class="card-body">
+                                                    <h1 class="display-6 text-white">You have been banned!</h1>
+                                                    <div class="card">
+                                                        <div class="card-body">
+                                                            <p class="mb-0">Ban reason:</p>
+                                                            <p>' . $result["banReason"] . '</p>
+                                                            <p class="pt-3">To appeal your ban, email the site admin at ' . $sysopEmail . '</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            ');
+                                        }
                                     }
                                 } else {
                                     echo("<br>An account with that handle doesn't exist!");
