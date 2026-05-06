@@ -18,6 +18,7 @@ include("settings.php");
                     <?php include("parts/header.php"); ?>
                 </div>
                 <div class="col-12 col-md-6">
+                    <h1 class="p-3 display-6">Login</h1>
                     <?php
                         if(isset($_POST["handle"])) {
                             try {
@@ -52,7 +53,10 @@ include("settings.php");
                                         $_SESSION['authenticated'] = TRUE;
                                         $_SESSION['handle'] = $result['handle'];
                                         $_SESSION['id'] = $result['id'];
-                                        echo("<br>Logged in as @" . $ha . "!");
+                                        echo('
+                                        <p>Logged in as @' . $ha . '!</p>
+                                        <a class="btn btn-primary w-100" href="index.php">Go back to index</a>
+                                        ');
                                     }
                                 } else {
                                     echo("<br>An account with that handle doesn't exist!");
@@ -60,7 +64,6 @@ include("settings.php");
                             }
                         } else {
                             echo('
-                                <h1 class="p-3 display-6">Login</h1>
                                 <form class="pt-3" action="login.php" method="POST">
                                     <label for="handle" class="form-label">Handle</label>
                                     <input id="handle" name="handle" class="form-control mb-2" placeholder="bob" maxlength=16>
