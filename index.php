@@ -24,7 +24,7 @@ include("settings.php");
                             // do nothing
                         } else {
                             echo('
-                            <form action="post.php" method="POST">
+                            <form action="index.php" method="POST">
                                 <div class="pb-3">
                                     <textarea class="form-control" maxlength="160" id="postData" name="postData" placeholder="today i..."></textarea>
                                     <div id="postLength" class="form-text float-start">160 characters left</div>
@@ -33,23 +33,80 @@ include("settings.php");
                             </form>
                             ');
                         }
-                            try {
-                                $sql = new PDO("mysql:host=localhost;dbname=bp", $sqlUser, $sqlPass);
-                                $query = $sql->query("SELECT * FROM posts ORDER BY postId DESC");
-                                if($query->rowCount() > 0) {
-                                    while($row = $query->fetch()) {
+                        if(isset($_POST["postData"])) {
+                            if(!isset($_SESSION["authenticated"])) {
+                                exit("<br>You are not authenticated!");
+                            } else {
+                                $postData = $_POST['postData'];
+                                $posterHandle = $_SESSION['handle'];
+                                $posterId = $_SESSION['id'];
+
+                                if (!isset($postData) || trim($postData) == "") {
+                                    echo('
+                                    <div class="card bg-danger text-white w-100">
+                                        <div class="card-body pb-0">
+                                            <p>You entered nothing, what the fuck do you want me to post?</p>
+                                        </div>
+                                    </div>
+                                    ');
+                                } else {
+                                    try {
+                                        $sql = new PDO("mysql:host=localhost;dbname=bp", $sqlUser, $sqlPass);
+                                    } catch(PDOException $e) {
                                         echo('
-                                            <div class="card w-100 my-2">
-                                                <div class="card-body">
-                                                <a href="viewuser.php?id=' . $row["posterId"] . '">@' . $row["posterHandle"] . '</a> - <a href="viewpost.php?id=' . $row["postId"] . '">Direct link</a><br>
-                                                ' . $row["postData"] . '
-                                                </div>
-                                        </div>');
+                                        <div class="card bg-danger text-white w-100">
+                                            <div class="card-body pb-0">
+                                                <p>Couldn\'t connect to database. ' . $e . ' </p>
+                                            </div>
+                                        </div>
+                                        ');
                                     }
+
+                                    $query = "INSERT INTO posts (postData, posterHandle, posterId) VALUES (:postData, :posterHandle, :posterId);";
+                                    $stmt = $sql->prepare($query);
+                                    $stmt->bindParam(":postData", $postData);
+                                    $stmt->bindParam(":posterHandle", $posterHandle);
+                                    $stmt->bindParam(":posterId", $posterId);
+
+                                    try {
+                                        $stmt->execute();
+                                    } catch(PDOException $e) {
+                                        echo('
+                                        <div class="card bg-danger text-white w-100">
+                                            <div class="card-body pb-0">
+                                                <p>An error occurred while creating your post. ' . $e . ' </p>
+                                            </div>
+                                        </div>
+                                        ');
+                                    }
+
+                                    echo('
+                                    <div class="card bg-success text-white w-100">
+                                        <div class="card-body pb-0">
+                                            <p>Successfully created your post!</p>
+                                        </div>
+                                    </div>
+                                    ');
                                 }
-                            } catch(PDOException $e) {
-                                echo("Couldn't connect to database. " . $e);
                             }
+                        }
+                        try {
+                            $sql = new PDO("mysql:host=localhost;dbname=bp", $sqlUser, $sqlPass);
+                            $query = $sql->query("SELECT * FROM posts ORDER BY postId DESC");
+                            if($query->rowCount() > 0) {
+                                while($row = $query->fetch()) {
+                                    echo('
+                                        <div class="card w-100 my-2">
+                                            <div class="card-body">
+                                            <a href="viewuser.php?id=' . $row["posterId"] . '">@' . $row["posterHandle"] . '</a> - <a href="viewpost.php?id=' . $row["postId"] . '">Direct link</a><br>
+                                            ' . $row["postData"] . '
+                                            </div>
+                                    </div>');
+                                }
+                            }
+                        } catch(PDOException $e) {
+                            echo("Couldn't connect to database. " . $e);
+                        }
                     ?>
                 </div>
                 <div class="col-12 col-md-3 border-start border-primary">
